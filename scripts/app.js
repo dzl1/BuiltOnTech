@@ -63,14 +63,21 @@ const progressDiv = document.getElementById('progress');
 const resetBtn = document.getElementById('reset');
 const emailParentBtn = document.getElementById('email-parent');
 const helpDiv = document.getElementById('help-content');
+const timerSelect = document.getElementById('timer');
+const timerDisplay = document.getElementById('timer-display');
 
 let currentTopic = topicSelect.value;
 let currentSubtopic = null;
 let currentQuestion = null;
 let currentAnswer = null;
 let currentAge = Number(ageSelect.value);
+let timerInterval = null;
+let timerValue = 5;
+let timeLeft = 5;
+let timerStarted = false;
 let totalQuestions = 0;
 let correctAnswers = 0;
+let incorrectAnswers = 0;
 let parentEmail = '';
 let helpVisible = false;
 
@@ -225,24 +232,106 @@ subtopicSelect.addEventListener('change', (e) => {
     loadTopic(currentTopic, currentSubtopic);
 });
 
-// Update nextBtn and submitBtn handlers
-nextBtn.addEventListener('click', () => {
-    generateQuestion(currentTopic, currentSubtopic);
-    feedbackDiv.textContent = '';
-    nextBtn.style.display = 'none';
-    submitBtn.disabled = false;
-    answerInput.value = '';
-    answerInput.focus();
+// Timer functionality
+// Update timer value when user changes selection
+timerSelect.addEventListener('change', () => {
+    timerValue = parseInt(timerSelect.value, 10);
 });
 
-submitBtn.addEventListener('click', checkAnswer);
+// Start timer for each question
+function startTimer(correctAnswer) {
+    clearInterval(timerInterval);
+    timeLeft = timerValue;
+    timerDisplay.textContent = `Time left: ${timeLeft}s`;
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `Time left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            handleTimeout(correctAnswer);
+        }
+    }, 1000);
+}
 
-answerInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        checkAnswer();
+// Handle timeout
+function handleTimeout(correctAnswer) {
+    feedbackDiv.textContent = `⏰ Time's up! The correct answer was: ${correctAnswer}`;
+    incorrectAnswers++;
+    totalQuestions++;
+    updateProgress();
+    nextBtn.style.display = 'block';
+    submitBtn.disabled = true;
+    answerInput.disabled = true;
+}
+
+// Listen for first input to start timer
+answerInput.addEventListener('input', function onFirstInput() {
+    if (!timerStarted && answerInput.value.trim() !== '') {
+        timerStarted = true;
+        if (currentQuestion && typeof currentQuestion.answer !== 'undefined') {
+            startTimer(currentQuestion.answer);
+        }
     }
+});
+
+// When showing a new question, reset timer state
+function showQuestion(questionObj) {
+    currentQuestion = questionObj;
+    answerInput.value = '';
+    feedbackDiv.textContent = '';
+    submitBtn.disabled = false;
+    answerInput.disabled = false;
+    nextBtn.style.display = 'none';
+    timerDisplay.textContent = '';
+    timerStarted = false;
+    clearInterval(timerInterval);
+}
+
+// On submit, check answer and move on
+submitBtn.addEventListener('click', () => {
+    clearInterval(timerInterval);
+    timerStarted = false;
+    const userAnswer = answerInput.value.trim();
+    const correctAnswer = currentAnswer; // <-- FIXED
+    totalQuestions++;
+    if (userAnswer === correctAnswer.toString()) {
+        feedbackDiv.textContent = '✅ Correct!';
+        correctAnswers++;
+    } else {
+        feedbackDiv.textContent = `❌ Incorrect! The correct answer was: ${correctAnswer}`;
+        incorrectAnswers++;
+    }
+    updateProgress();
+    nextBtn.style.display = 'block';
+    submitBtn.disabled = true;
+    answerInput.disabled = true;
+});
+
+// On next, load next question (replace with your logic)
+nextBtn.addEventListener('click', () => {
+    generateQuestion(currentTopic, currentSubtopic);
+    nextBtn.style.display = 'none';
+    submitBtn.disabled = false;
+    answerInput.disabled = false;
+    answerInput.value = '';
+    answerInput.focus();
+    timerDisplay.textContent = '';
+    timerStarted = false;
+    clearInterval(timerInterval);
+});
+
+// On reset, clear tallies and progress
+document.getElementById('reset').addEventListener('click', () => {
+    totalQuestions = 0;
+    correctAnswers = 0;
+    incorrectAnswers = 0;
+    updateProgress();
+    clearInterval(timerInterval);
+    timerDisplay.textContent = '';
+    // ...existing reset logic...
 });
 
 // Initial load
 populateSubtopics(currentTopic);
 loadTopic(currentTopic, currentSubtopic);
+updateProgress();
