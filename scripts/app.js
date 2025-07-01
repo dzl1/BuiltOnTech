@@ -232,6 +232,21 @@ subtopicSelect.addEventListener('change', (e) => {
     loadTopic(currentTopic, currentSubtopic);
 });
 
+const tutorialBtn = document.createElement('button');
+tutorialBtn.id = 'view-tutorial';
+tutorialBtn.textContent = 'View Tutorial';
+tutorialBtn.style.marginBottom = '16px';
+subtopicSelect.parentNode.insertBefore(tutorialBtn, subtopicSelect.nextSibling);
+
+tutorialBtn.addEventListener('click', () => {
+    const topicKey = topicSelect.value;
+    const subtopicKey = subtopicSelect.value;
+    let fileSubtopic = subtopicKey;
+    // Compose file name
+    const tutorialFile = `${topicKey}-${fileSubtopic}.html`;
+    window.location.href = `tutorials/${tutorialFile}`;
+});
+
 // Timer functionality
 // Update timer value when user changes selection
 timerSelect.addEventListener('change', () => {
