@@ -17,7 +17,7 @@
         <section>
             <h2>What is Multiplication?</h2>
             <p>Multiplication is repeated addition. For example, 3 × 4 means adding 3 four times: 3 + 3 + 3 + 3 = 12.</p>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Multiplication_illustration.svg" alt="Multiplication visual" style="max-width:300px;">
+            <div id="topic-image"></div>
         </section>
         <section>
             <h2>How Multiplication Works</h2>
@@ -35,6 +35,35 @@
                 <li>5 × 5 = ?</li>
             </ol>
         </section>
+        <section>
+            <h2>Complex Example</h2>
+            <p><strong>Multiplying Large Numbers:</strong> What is 23 × 17?</p>
+            <p><strong>Step 1:</strong> Break 17 into 10 and 7. So, 23 × 17 = 23 × (10 + 7)</p>
+            <p><strong>Step 2:</strong> Multiply 23 × 10 = 230</p>
+            <p><strong>Step 3:</strong> Multiply 23 × 7 = 161</p>
+            <p><strong>Step 4:</strong> Add the results: 230 + 161 = <strong>391</strong></p>
+            <p>This method (distributive property) helps you multiply large numbers by breaking them into smaller, easier parts.</p>
+        </section>
     </main>
+<script>
+// Dynamically load image from image-links.txt
+fetch('../tutorials/image-links.txt')
+  .then(response => response.text())
+  .then(text => {
+    const match = text.split('\n').find(line => line.trim().startsWith('arithmetic-multiplication:'));
+    if (match) {
+      const url = match.split(':').slice(1).join(':').trim();
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Multiplication visual with objects';
+        img.style.maxWidth = '300px';
+        img.style.display = 'block';
+        img.style.margin = '16px auto';
+        document.getElementById('topic-image').appendChild(img);
+      }
+    }
+  });
+</script>
 </body>
 </html>

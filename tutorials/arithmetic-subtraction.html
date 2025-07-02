@@ -17,7 +17,7 @@
         <section>
             <h2>What is Subtraction?</h2>
             <p>Subtraction means taking away one number from another. It is the opposite of addition.</p>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Visual-fraction-3-4-minus-1-4.svg" alt="Subtraction visual" style="max-width:300px;">
+            <div id="topic-image"></div>
         </section>
         <section>
             <h2>How Subtraction Works</h2>
@@ -36,6 +36,35 @@
                 <li>12 - 5 = ?</li>
             </ol>
         </section>
+        <section>
+            <h2>Complex Example</h2>
+            <p><strong>Subtracting Across Zeros:</strong> What is 2000 - 587?</p>
+            <p><strong>Step 1:</strong> Line up the numbers and subtract each column, borrowing as needed.</p>
+            <p>2000<br>- 587</p>
+            <p>Borrow from the thousands and hundreds places as needed:</p>
+            <p>2000 - 587 = 1413</p>
+            <p><strong>Explanation:</strong> When subtracting across zeros, always borrow from the next non-zero digit to the left.</p>
+        </section>
     </main>
+<script>
+// Dynamically load image from image-links.txt
+fetch('../tutorials/image-links.txt')
+  .then(response => response.text())
+  .then(text => {
+    const match = text.split('\n').find(line => line.trim().startsWith('arithmetic-subtraction:'));
+    if (match) {
+      const url = match.split(':').slice(1).join(':').trim();
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Subtraction visual';
+        img.style.maxWidth = '300px';
+        img.style.display = 'block';
+        img.style.margin = '16px auto';
+        document.getElementById('topic-image').appendChild(img);
+      }
+    }
+  });
+</script>
 </body>
 </html>

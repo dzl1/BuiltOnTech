@@ -17,7 +17,7 @@
         <section>
             <h2>What is Division?</h2>
             <p>Division is splitting a number into equal parts. For example, 12 ÷ 3 means splitting 12 into 3 equal groups: each group has 4.</p>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Division_illustration.svg" alt="Division visual" style="max-width:300px;">
+            <div id="topic-image"></div>
         </section>
         <section>
             <h2>How Division Works</h2>
@@ -35,6 +35,35 @@
                 <li>20 ÷ 5 = ?</li>
             </ol>
         </section>
+        <section>
+            <h2>Complex Example</h2>
+            <p><strong>Dividing Large Numbers:</strong> What is 144 ÷ 12?</p>
+            <p><strong>Step 1:</strong> Set up the division: 144 ÷ 12</p>
+            <p><strong>Step 2:</strong> 12 goes into 14 once (1 × 12 = 12), remainder 2. Bring down the 4 to make 24.</p>
+            <p><strong>Step 3:</strong> 12 goes into 24 two times (2 × 12 = 24), remainder 0.</p>
+            <p><strong>Final Answer:</strong> 144 ÷ 12 = <strong>12</strong></p>
+            <p>This example shows how to use long division to solve division problems with larger numbers.</p>
+        </section>
     </main>
+<script>
+// Dynamically load image from image-links.txt
+fetch('../tutorials/image-links.txt')
+  .then(response => response.text())
+  .then(text => {
+    const match = text.split('\n').find(line => line.trim().startsWith('arithmetic-division:'));
+    if (match) {
+      const url = match.split(':').slice(1).join(':').trim();
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Division visual';
+        img.style.maxWidth = '300px';
+        img.style.display = 'block';
+        img.style.margin = '16px auto';
+        document.getElementById('topic-image').appendChild(img);
+      }
+    }
+  });
+</script>
 </body>
 </html>

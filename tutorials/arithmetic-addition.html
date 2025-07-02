@@ -21,15 +21,16 @@
             </p>
         </section>
         <section>
-            <h2>How Addition Works</h2>
-            <p>
-                When you add two numbers, you are combining their values. For example, if you have 2 apples and get 3 more apples, you now have 2 + 3 = 5 apples.
-            </p>
-            <ul>
-                <li>2 + 3 = 5</li>
-                <li>7 + 1 = 8</li>
-                <li>10 + 4 = 14</li>
-            </ul>
+        <h2>How Addition Works</h2>
+        <p>
+            When you add two numbers, you are combining their values. For example, if you have 2 apples and get 3 more apples, you now have 2 + 3 = 5 apples.
+        </p>
+        <div id="topic-image"></div>
+        <ul>
+            <li>2 + 3 = 5</li>
+            <li>7 + 1 = 8</li>
+            <li>10 + 4 = 14</li>
+        </ul>
         </section>
         <section>
             <h2>Tips for Addition</h2>
@@ -47,6 +48,36 @@
                 <li>3 + 9 = ?</li>
             </ol>
         </section>
+        <section>
+            <h2>Complex Example</h2>
+            <p><strong>Adding Multiple Numbers:</strong> What is the sum of 17 + 23 + 45 + 8?</p>
+            <p><strong>Step 1:</strong> Add 17 and 23: 17 + 23 = 40</p>
+            <p><strong>Step 2:</strong> Add 40 and 45: 40 + 45 = 85</p>
+            <p><strong>Step 3:</strong> Add 85 and 8: 85 + 8 = 93</p>
+            <p><strong>Final Answer:</strong> 17 + 23 + 45 + 8 = <strong>93</strong></p>
+            <p>This shows how you can break down a problem with many numbers into smaller steps, making it easier to solve.</p>
+        </section>
     </main>
+<script>
+// Dynamically load image from image-links.txt
+fetch('../tutorials/image-links.txt')
+  .then(response => response.text())
+  .then(text => {
+    // Find the line for arithmetic-addition
+    const match = text.split('\n').find(line => line.trim().startsWith('arithmetic-addition:'));
+    if (match) {
+      const url = match.split(':').slice(1).join(':').trim();
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Number line showing addition';
+        img.style.maxWidth = '300px';
+        img.style.display = 'block';
+        img.style.margin = '16px auto';
+        document.getElementById('topic-image').appendChild(img);
+      }
+    }
+  });
+</script>
 </body>
 </html>

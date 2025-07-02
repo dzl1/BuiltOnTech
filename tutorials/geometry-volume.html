@@ -17,7 +17,7 @@
         <section>
             <h2>What is Volume?</h2>
             <p>Volume is the amount of space inside a 3D object. It is measured in cubic units (like cm³ or m³).</p>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Volume_cube.svg" alt="Volume of a cube" style="max-width:300px;">
+            <div id="topic-image"></div>
         </section>
         <section>
             <h2>How to Find Volume</h2>
@@ -34,5 +34,25 @@
             </ol>
         </section>
     </main>
+<script>
+// Dynamically load image from image-links.txt
+fetch('../tutorials/image-links.txt')
+  .then(response => response.text())
+  .then(text => {
+    const match = text.split('\n').find(line => line.trim().startsWith('geometry-volume:'));
+    if (match) {
+      const url = match.split(':').slice(1).join(':').trim();
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Volume of a cube';
+        img.style.maxWidth = '300px';
+        img.style.display = 'block';
+        img.style.margin = '16px auto';
+        document.getElementById('topic-image').appendChild(img);
+      }
+    }
+  });
+</script>
 </body>
 </html>

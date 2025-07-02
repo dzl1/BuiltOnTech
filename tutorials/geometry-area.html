@@ -17,7 +17,7 @@
         <section>
             <h2>What is Area?</h2>
             <p>Area is the amount of space inside a shape. It is measured in square units (like cm² or m²).</p>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Area_square.svg" alt="Area of a square" style="max-width:300px;">
+            <div id="topic-image"></div>
         </section>
         <section>
             <h2>How to Find Area</h2>
@@ -36,5 +36,25 @@
             </ol>
         </section>
     </main>
+<script>
+// Dynamically load image from image-links.txt
+fetch('../tutorials/image-links.txt')
+  .then(response => response.text())
+  .then(text => {
+    const match = text.split('\n').find(line => line.trim().startsWith('geometry-area:'));
+    if (match) {
+      const url = match.split(':').slice(1).join(':').trim();
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Area of a square';
+        img.style.maxWidth = '300px';
+        img.style.display = 'block';
+        img.style.margin = '16px auto';
+        document.getElementById('topic-image').appendChild(img);
+      }
+    }
+  });
+</script>
 </body>
 </html>

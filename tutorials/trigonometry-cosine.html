@@ -17,7 +17,7 @@
         <section>
             <h2>What is Cosine?</h2>
             <p>Cosine is a trigonometric function. In a right triangle, cosine of an angle is the ratio of the length of the adjacent side to the hypotenuse.</p>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Trig_cos.svg" alt="Cosine visual" style="max-width:300px;">
+            <div id="topic-image"></div>
         </section>
         <section>
             <h2>How to Use Cosine</h2>
@@ -34,5 +34,25 @@
             </ol>
         </section>
     </main>
+<script>
+// Dynamically load image from image-links.txt
+fetch('../tutorials/image-links.txt')
+  .then(response => response.text())
+  .then(text => {
+    const match = text.split('\n').find(line => line.trim().startsWith('trigonometry-cosine:'));
+    if (match) {
+      const url = match.split(':').slice(1).join(':').trim();
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Cosine visual';
+        img.style.maxWidth = '300px';
+        img.style.display = 'block';
+        img.style.margin = '16px auto';
+        document.getElementById('topic-image').appendChild(img);
+      }
+    }
+  });
+</script>
 </body>
 </html>

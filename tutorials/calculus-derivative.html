@@ -17,7 +17,7 @@
         <section>
             <h2>What is a Derivative?</h2>
             <p>A derivative measures how a function changes as its input changes. It is a key concept in calculus.</p>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Tangent_and_derivative_at_a_point.svg" alt="Derivative visual" style="max-width:300px;">
+            <div id="topic-image"></div>
         </section>
         <section>
             <h2>How to Find Derivatives</h2>
@@ -34,5 +34,25 @@
             </ol>
         </section>
     </main>
+<script>
+// Dynamically load image from image-links.txt
+fetch('../tutorials/image-links.txt')
+  .then(response => response.text())
+  .then(text => {
+    const match = text.split('\n').find(line => line.trim().startsWith('calculus-derivative:'));
+    if (match) {
+      const url = match.split(':').slice(1).join(':').trim();
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Derivative visual';
+        img.style.maxWidth = '300px';
+        img.style.display = 'block';
+        img.style.margin = '16px auto';
+        document.getElementById('topic-image').appendChild(img);
+      }
+    }
+  });
+</script>
 </body>
 </html>

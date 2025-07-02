@@ -17,7 +17,7 @@
         <section>
             <h2>What is an Expression?</h2>
             <p>An algebraic expression is a combination of numbers, variables, and operations (like +, −, ×, ÷).</p>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Algebraic_expression_example.svg" alt="Algebraic expression visual" style="max-width:300px;">
+            <div id="topic-image"></div>
         </section>
         <section>
             <h2>Examples of Expressions</h2>
@@ -36,5 +36,25 @@
             </ol>
         </section>
     </main>
+<script>
+// Dynamically load image from image-links.txt
+fetch('../tutorials/image-links.txt')
+  .then(response => response.text())
+  .then(text => {
+    const match = text.split('\n').find(line => line.trim().startsWith('algebra-exp:'));
+    if (match) {
+      const url = match.split(':').slice(1).join(':').trim();
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Algebraic expression visual';
+        img.style.maxWidth = '300px';
+        img.style.display = 'block';
+        img.style.margin = '16px auto';
+        document.getElementById('topic-image').appendChild(img);
+      }
+    }
+  });
+</script>
 </body>
 </html>

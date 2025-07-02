@@ -17,7 +17,7 @@
         <section>
             <h2>What is a Linear Equation?</h2>
             <p>A linear equation is an equation that makes a straight line when it is graphed. It has the form <strong>ax + b = c</strong>.</p>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Linear_function_graph.svg" alt="Linear equation graph" style="max-width:300px;">
+            <div id="topic-image"></div>
         </section>
         <section>
             <h2>How to Solve Linear Equations</h2>
@@ -36,5 +36,25 @@
             </ol>
         </section>
     </main>
+<script>
+// Dynamically load image from image-links.txt
+fetch('../tutorials/image-links.txt')
+  .then(response => response.text())
+  .then(text => {
+    const match = text.split('\n').find(line => line.trim().startsWith('algebra-linear:'));
+    if (match) {
+      const url = match.split(':').slice(1).join(':').trim();
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Linear equation graph';
+        img.style.maxWidth = '300px';
+        img.style.display = 'block';
+        img.style.margin = '16px auto';
+        document.getElementById('topic-image').appendChild(img);
+      }
+    }
+  });
+</script>
 </body>
 </html>

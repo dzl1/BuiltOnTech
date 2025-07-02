@@ -50,7 +50,7 @@ const subtopics = {
 };
 
 const topicSelect = document.getElementById('topic');
-const subtopicSelect = document.getElementById('subtopic');
+const subtopicListDiv = document.getElementById('subtopic-list');
 const teachingDiv = document.getElementById('teaching');
 const questionDiv = document.getElementById('question');
 const answerInput = document.getElementById('answer');
@@ -84,15 +84,35 @@ let helpVisible = false;
 // Remove the JS that creates and inserts helpBtn and helpDiv dynamically, since all help UI is now in the HTML.
 // Instead, just get references to the helpDiv and use it.
 
+
 function populateSubtopics(topicKey) {
-    subtopicSelect.innerHTML = '';
+    subtopicListDiv.innerHTML = '';
     subtopics[topicKey].forEach(st => {
-        const opt = document.createElement('option');
-        opt.value = st.value;
-        opt.textContent = st.label;
-        subtopicSelect.appendChild(opt);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = st.label;
+        btn.value = st.value;
+        btn.className = 'subtopic-btn';
+        btn.style.padding = '8px 12px';
+        btn.style.borderRadius = '6px';
+        btn.style.border = '1px solid #b0b8c1';
+        btn.style.background = '#f7faff';
+        btn.style.cursor = 'pointer';
+        btn.style.marginRight = '4px';
+        btn.style.marginBottom = '4px';
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.subtopic-btn').forEach(b => b.style.background = '#f7faff');
+            btn.style.background = '#d2e3fc';
+            currentSubtopic = btn.value;
+            loadTopic(currentTopic, currentSubtopic);
+        });
+        subtopicListDiv.appendChild(btn);
     });
-    currentSubtopic = subtopicSelect.value;
+    // Select the first subtopic by default
+    const firstBtn = subtopicListDiv.querySelector('.subtopic-btn');
+    if (firstBtn) {
+        firstBtn.click();
+    }
 }
 
 function loadTopic(topicKey, subtopicKey) {
@@ -220,27 +240,22 @@ function resetHelp() {
     helpVisible = false;
 }
 
+
 topicSelect.addEventListener('change', (e) => {
     currentTopic = e.target.value;
     populateSubtopics(currentTopic);
-    currentSubtopic = subtopicSelect.value;
-    loadTopic(currentTopic, currentSubtopic);
 });
 
-subtopicSelect.addEventListener('change', (e) => {
-    currentSubtopic = e.target.value;
-    loadTopic(currentTopic, currentSubtopic);
-});
-
+// Add tutorial button after subtopic list
 const tutorialBtn = document.createElement('button');
 tutorialBtn.id = 'view-tutorial';
 tutorialBtn.textContent = 'View Tutorial';
 tutorialBtn.style.marginBottom = '16px';
-subtopicSelect.parentNode.insertBefore(tutorialBtn, subtopicSelect.nextSibling);
+subtopicListDiv.parentNode.insertBefore(tutorialBtn, subtopicListDiv.nextSibling);
 
 tutorialBtn.addEventListener('click', () => {
     const topicKey = topicSelect.value;
-    const subtopicKey = subtopicSelect.value;
+    const subtopicKey = currentSubtopic;
     let fileSubtopic = subtopicKey;
     // Compose file name
     const tutorialFile = `${topicKey}-${fileSubtopic}.html`;
@@ -271,6 +286,7 @@ function startTimer(correctAnswer) {
 // Handle timeout
 function handleTimeout(correctAnswer) {
     feedbackDiv.textContent = `⏰ Time's up! The correct answer was: ${correctAnswer}`;
+    console.log(`Timeout! Correct answer was: ${correctAnswer}`);
     incorrectAnswers++;
     totalQuestions++;
     updateProgress();
@@ -284,9 +300,11 @@ answerInput.addEventListener('input', function onFirstInput() {
     if (!timerStarted && answerInput.value.trim() !== '') {
         timerStarted = true;
         if (currentQuestion && typeof currentQuestion.answer !== 'undefined') {
-            startTimer(currentQuestion.answer);
+            startTimer(currentQuestion.answer);  
+            console.log(`Timer started for question: ${currentQuestion.question}`);
+   
         }
-    }
+       }
 });
 
 // When showing a new question, reset timer state
@@ -348,5 +366,5 @@ document.getElementById('reset').addEventListener('click', () => {
 
 // Initial load
 populateSubtopics(currentTopic);
-loadTopic(currentTopic, currentSubtopic);
+// No need to call loadTopic here, as the first subtopic button click will trigger it
 updateProgress();

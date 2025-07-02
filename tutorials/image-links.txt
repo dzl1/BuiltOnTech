@@ -1,0 +1,21 @@
+# Tutorial Image Links
+# Format: topic-subtopic: url
+
+arithmetic-addition: https://cdn.pixabay.com/photo/2013/07/12/13/58/numbers-147782_1280.png
+arithmetic-multiplication: https://www.wikihow.com/images/thumb/f/f3/Multiply-Step-6-Version-5.jpg/v4-460px-Multiply-Step-6-Version-5.jpg
+arithmetic-subtraction: https://cdn.pixabay.com/photo/2016/03/31/19/14/fraction-1295485_1280.png
+arithmetic-division: https://cdn.pixabay.com/photo/2017/01/31/19/14/division-2029362_1280.png
+fractions-add: https://cdn.pixabay.com/photo/2016/03/31/19/14/fraction-1295485_1280.png
+fractions-subtract: https://cdn.pixabay.com/photo/2016/03/31/19/14/fraction-1295485_1280.png
+fractions-multiply: https://cdn.pixabay.com/photo/2016/03/31/19/14/fraction-1295485_1280.png
+fractions-divide: https://cdn.pixabay.com/photo/2016/03/31/19/14/fraction-1295485_1280.png
+geometry-area: https://cdn.pixabay.com/photo/2013/07/12/13/58/numbers-147782_1280.png
+geometry-perimeter: https://cdn.pixabay.com/photo/2013/07/12/13/58/numbers-147782_1280.png
+geometry-volume: https://cdn.pixabay.com/photo/2013/07/12/13/58/numbers-147782_1280.png
+algebra-exp: https://cdn.pixabay.com/photo/2017/01/31/19/14/algebra-2029361_1280.png
+algebra-linear: https://cdn.pixabay.com/photo/2017/01/31/19/14/algebra-2029361_1280.png
+trigonometry-sine: https://cdn.pixabay.com/photo/2017/01/31/19/14/sine-2029363_1280.png
+trigonometry-cosine: https://cdn.pixabay.com/photo/2017/01/31/19/14/cosine-2029364_1280.png
+trigonometry-tangent: https://cdn.pixabay.com/photo/2017/01/31/19/14/tangent-2029365_1280.png
+calculus-derivative: https://cdn.pixabay.com/photo/2017/01/31/19/14/derivative-2029366_1280.png
+calculus-integral: https://cdn.pixabay.com/photo/2017/01/31/19/14/integral-2029367_1280.png

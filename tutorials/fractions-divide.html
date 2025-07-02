@@ -17,7 +17,7 @@
         <section>
             <h2>How to Divide Fractions</h2>
             <p>To divide fractions, flip the second fraction (find its reciprocal) and multiply.</p>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Dividing_fractions.svg" alt="Dividing fractions visual" style="max-width:300px;">
+            <div id="topic-image"></div>
             <ul>
                 <li>1/2 ÷ 1/4 = 1/2 × 4/1 = 4/2 = 2</li>
                 <li>2/3 ÷ 1/6 = 2/3 × 6/1 = 12/3 = 4</li>
@@ -32,5 +32,25 @@
             </ol>
         </section>
     </main>
+<script>
+// Dynamically load image from image-links.txt
+fetch('../tutorials/image-links.txt')
+  .then(response => response.text())
+  .then(text => {
+    const match = text.split('\n').find(line => line.trim().startsWith('fractions-divide:'));
+    if (match) {
+      const url = match.split(':').slice(1).join(':').trim();
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Dividing fractions visual';
+        img.style.maxWidth = '300px';
+        img.style.display = 'block';
+        img.style.margin = '16px auto';
+        document.getElementById('topic-image').appendChild(img);
+      }
+    }
+  });
+</script>
 </body>
 </html>
