@@ -79,26 +79,36 @@
         <div id="subtopic-list" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;"></div>
         <div id="help-content" class="teaching" style="display:none; margin-bottom: 8px;"></div>
         <div id="teaching" class="teaching"></div>
-        <label for="age">Select your age:</label>
-        <select id="age">
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">13</option>
-            <option value="14">14</option>
-            <option value="15">15</option>
-            <option value="16">16</option>
-            <option value="17">17</option>
-            <option value="18">18</option>
-        </select>
-        <!-- Timer selection and display -->
-        <label for="timer">Choose timer (seconds):</label>
-        <select id="timer">
-            <option value="2">2</option>
-            <option value="5" selected>5</option>
-            <option value="10">10</option>
-        </select>
+        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 16px;">
+            <label for="age" style="margin-bottom: 0; width: auto;">Select your age:</label>
+            <select id="age" style="width: auto; min-width: 60px; margin-bottom: 0;">
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+            </select>
+            <label for="timer" style="margin-bottom: 0; width: auto;">Choose timer (minutes):</label>
+            <select id="timer" style="width: auto; min-width: 60px; margin-bottom: 0;">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="45">45</option>
+                <option value="60">60</option>
+            </select>
+            <button id="start-timer" style="width:auto; min-width:80px; margin-bottom:0;">Start</button>
+        </div>
         <div id="timer-display" style="font-size:1.2em; color:#2a4d8f; text-align:right; margin-bottom:8px;"></div>
         <div style="display: flex; align-items: flex-start; margin-bottom: 8px; width: 100%;">
             <div id="question" class="question" style="flex:1 1 0; margin-bottom:0; min-width:0; word-break:break-word;"></div>

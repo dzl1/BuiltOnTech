@@ -65,6 +65,7 @@ const emailParentBtn = document.getElementById('email-parent');
 const helpDiv = document.getElementById('help-content');
 const timerSelect = document.getElementById('timer');
 const timerDisplay = document.getElementById('timer-display');
+const startTimerBtn = document.getElementById('start-timer');
 
 let currentTopic = topicSelect.value;
 let currentSubtopic = null;
@@ -80,6 +81,8 @@ let correctAnswers = 0;
 let incorrectAnswers = 0;
 let parentEmail = '';
 let helpVisible = false;
+let challengeTimerInterval = null;
+let challengeTimeLeft = 0;
 
 // Remove the JS that creates and inserts helpBtn and helpDiv dynamically, since all help UI is now in the HTML.
 // Instead, just get references to the helpDiv and use it.
@@ -93,21 +96,16 @@ function populateSubtopics(topicKey) {
         btn.textContent = st.label;
         btn.value = st.value;
         btn.className = 'subtopic-btn';
-        btn.style.padding = '8px 12px';
-        btn.style.borderRadius = '6px';
-        btn.style.border = '1px solid #b0b8c1';
-        btn.style.background = '#f7faff';
-        btn.style.cursor = 'pointer';
-        btn.style.marginRight = '4px';
-        btn.style.marginBottom = '4px';
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.subtopic-btn').forEach(b => b.style.background = '#f7faff');
-            btn.style.background = '#d2e3fc';
+            document.querySelectorAll('.subtopic-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
             currentSubtopic = btn.value;
             loadTopic(currentTopic, currentSubtopic);
         });
         subtopicListDiv.appendChild(btn);
     });
+    // Force flex-wrap to nowrap to override any inline style
+    subtopicListDiv.style.flexWrap = 'nowrap';
     // Select the first subtopic by default
     const firstBtn = subtopicListDiv.querySelector('.subtopic-btn');
     if (firstBtn) {
@@ -363,6 +361,36 @@ document.getElementById('reset').addEventListener('click', () => {
     timerDisplay.textContent = '';
     // ...existing reset logic...
 });
+
+// Challenge timer functionality
+startTimerBtn.addEventListener('click', () => {
+    // Get minutes from timer select
+    const minutes = parseInt(timerSelect.value, 10);
+    challengeTimeLeft = minutes * 60;
+    startChallengeTimer();
+});
+
+function startChallengeTimer() {
+    clearInterval(challengeTimerInterval);
+    updateChallengeTimerDisplay();
+    challengeTimerInterval = setInterval(() => {
+        challengeTimeLeft--;
+        updateChallengeTimerDisplay();
+        if (challengeTimeLeft <= 0) {
+            clearInterval(challengeTimerInterval);
+            timerDisplay.textContent = "⏰ Time's up! Challenge over.";
+            submitBtn.disabled = true;
+            answerInput.disabled = true;
+            nextBtn.disabled = true;
+        }
+    }, 1000);
+}
+
+function updateChallengeTimerDisplay() {
+    const min = Math.floor(challengeTimeLeft / 60);
+    const sec = challengeTimeLeft % 60;
+    timerDisplay.textContent = `Time left: ${min}:${sec.toString().padStart(2, '0')}`;
+}
 
 // Initial load
 populateSubtopics(currentTopic);
