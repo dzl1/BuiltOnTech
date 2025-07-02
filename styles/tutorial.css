@@ -7,3 +7,45 @@ body {
         margin: 16px;
     }
 }
+
+.subtopic-btn {
+  display: inline-block;
+  vertical-align: middle;
+  background: #f7faff;
+  color: #111;
+  border: 1px solid #b0b8c1;
+  border-radius: 6px;
+  padding: 8px 16px;
+  margin-right: 8px;
+  margin-bottom: 0;
+  font-size: 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+  width: 100px;
+  min-width: 0;
+  max-width: 100px;
+  box-sizing: border-box;
+  transition: background 0.2s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.subtopic-btn.selected, .subtopic-btn:active {
+  background: #d2e3fc;
+}
+#subtopic-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 0;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 600px) {
+  #subtopic-list {
+    flex-wrap: wrap;
+    gap: 8px 0;
+  }
+  .subtopic-btn {
+    margin-bottom: 8px;
+  }
+}
