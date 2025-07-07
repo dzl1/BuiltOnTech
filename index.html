@@ -3,125 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kids Maths Learning App</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>BuiltOnTech Home</title>
+    <link rel="stylesheet" href="styles/tutorial.css">
     <style>
         body {
-            font-family: 'Roboto', Arial, sans-serif;
-            background: #f0f4fa;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             margin: 0;
-            padding: 0;
+            background: #f0f4fa;
         }
-        .container {
+        .center-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+        .app-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5em;
             max-width: 500px;
-            margin: 40px auto;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            padding: 32px 24px 24px 24px;
+            width: 100%;
+            margin: 2em auto;
+            align-items: center;
+        }
+        .app-link {
+            padding: 1em 2em;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #f9f9f9;
+            text-align: center;
+            font-size: 1.2em;
+            transition: box-shadow 0.2s, background 0.2s;
+            width: 100%;
+            max-width: 350px;
+        }
+        .app-link:hover {
+            box-shadow: 0 2px 8px #bbb;
+            background: #f0f8ff;
         }
         h1 {
             text-align: center;
-            color: #2a4d8f;
+            margin-top: 2em;
         }
-        label, select, button, input {
-            display: block;
-            width: 100%;
-            margin-bottom: 16px;
-        }
-        select, input {
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid #b0b8c1;
-        }
-        button {
-            background: #2a4d8f;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 10px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        button:hover {
-            background: #18305b;
-        }
-        .teaching, .question, .feedback {
-            margin-bottom: 20px;
-            padding: 16px;
-            border-radius: 8px;
-            background: #f7faff;
-            border: 1px solid #e0e6ef;
-        }
-        .feedback {
-            font-weight: bold;
-        }
-        #progress {
-            font-size: 0.9rem;
-            color: #555;
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2em;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Kids Maths Learning App</h1>
-        <label for="topic">Choose a topic:</label>
-        <select id="topic">
-            <option value="arithmetic">Arithmetic (Ages 9–11)</option>
-            <option value="fractions">Fractions (Ages 9–12)</option>
-            <option value="algebra">Algebra (Ages 12–16)</option>
-            <option value="geometry">Geometry (Ages 12–16)</option>
-            <option value="trigonometry">Trigonometry (Ages 14–18)</option>
-            <option value="calculus">Calculus (Ages 16–18)</option>
-        </select>
-        <label for="subtopic">Choose a subtopic:</label>
-        <div id="subtopic-list" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;"></div>
-        <div id="help-content" class="teaching" style="display:none; margin-bottom: 8px;"></div>
-        <div id="teaching" class="teaching"></div>
-        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 16px;">
-            <label for="age" style="margin-bottom: 0; width: auto;">Select your age:</label>
-            <select id="age" style="width: auto; min-width: 60px; margin-bottom: 0;">
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-            </select>
-            <label for="timer" style="margin-bottom: 0; width: auto;">Choose timer (minutes):</label>
-            <select id="timer" style="width: auto; min-width: 60px; margin-bottom: 0;">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option value="45">45</option>
-                <option value="60">60</option>
-            </select>
-            <button id="start-timer" style="width:auto; min-width:80px; margin-bottom:0;">Start</button>
+    <div class="center-container">
+        <h1>Welcome to BuiltOnTech</h1>
+        <div class="subtitle">A hub for community-built educational and tech apps</div>
+        <div class="app-links">
+            <a class="app-link" href="math.html">Kids Maths Learning App</a>
+            <!-- Add more app links below as the community grows -->
+            <!-- Example: <a class="app-link" href="someones-app.html">Someone's Cool App</a> -->
         </div>
-        <div id="timer-display" style="font-size:1.2em; color:#2a4d8f; text-align:right; margin-bottom:8px;"></div>
-        <div style="display: flex; align-items: flex-start; margin-bottom: 8px; width: 100%;">
-            <div id="question" class="question" style="flex:1 1 0; margin-bottom:0; min-width:0; word-break:break-word;"></div>
-            <button id="inline-help" title="Show help for this question" style="margin-left:8px; background:none; border:none; cursor:pointer; font-size:1.5em; align-self: flex-start; width:2em; min-width:2em; max-width:2em; padding:0;">❓</button>
-        </div>
-        <div id="progress" style="margin-bottom:16px;"></div>
-        <button id="email-parent" style="display:none; background:#43a047; color:#fff; margin-bottom:16px;">Email Parent</button>
-        <input type="text" id="answer" placeholder="Type your answer here">
-        <button id="submit">Submit Answer</button>
-        <div id="feedback" class="feedback"></div>
-        <button id="next" style="display:none;">Next Question</button>
-        <button id="reset" style="background:#e53935; color:#fff; margin-top:24px; width:100%;">Reset Progress</button>
     </div>
-    <script type="module" src="scripts/app.js"></script>
 </body>
 </html>
