@@ -26,12 +26,16 @@ scene.add(light);
 
 
 // --- Mouse drag movement logic ---
+
+// --- Mouse drag rotation logic ---
 let isDragging = false;
 let prevMouse = { x: 0, y: 0 };
+let dragDelta = { x: 0, y: 0 };
 
 renderer.domElement.addEventListener('mousedown', (e) => {
     isDragging = true;
     prevMouse = { x: e.clientX, y: e.clientY };
+    dragDelta = { x: 0, y: 0 };
 });
 renderer.domElement.addEventListener('mouseup', () => {
     isDragging = false;
@@ -41,17 +45,29 @@ renderer.domElement.addEventListener('mouseleave', () => {
 });
 renderer.domElement.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
-    const dx = (e.clientX - prevMouse.x) / width * 5; // scale factor for movement
-    const dy = -(e.clientY - prevMouse.y) / height * 5;
-    cube.position.x += dx;
-    cube.position.y += dy;
+    const dx = e.clientX - prevMouse.x;
+    const dy = e.clientY - prevMouse.y;
+    dragDelta.x += dx;
+    dragDelta.y += dy;
     prevMouse = { x: e.clientX, y: e.clientY };
 });
 
+
+// Cube always rotates, but direction can be changed by mouse drag
+let rotX = 0.01;
+let rotY = 0.01;
+
 function animate() {
     requestAnimationFrame(animate);
-    // cube.rotation.x += 0.01;
-    // cube.rotation.y += 0.01;
+    // If a drag just happened, set rotation direction based on drag
+    if (!isDragging && (dragDelta.x !== 0 || dragDelta.y !== 0)) {
+        // Scale drag to reasonable rotation speed
+        rotY = dragDelta.x * 0.005;
+        rotX = dragDelta.y * 0.005;
+        dragDelta = { x: 0, y: 0 };
+    }
+    cube.rotation.x += rotX;
+    cube.rotation.y += rotY;
     renderer.render(scene, camera);
 }
 animate();
