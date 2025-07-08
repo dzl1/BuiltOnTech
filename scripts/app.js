@@ -300,9 +300,18 @@ answerInput.addEventListener('input', function onFirstInput() {
         if (currentQuestion && typeof currentQuestion.answer !== 'undefined') {
             startTimer(currentQuestion.answer);  
             console.log(`Timer started for question: ${currentQuestion.question}`);
-   
         }
-       }
+    }
+});
+
+// Allow user to hit Enter to submit answer
+answerInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        if (!submitBtn.disabled && !answerInput.disabled) {
+            submitBtn.click();
+        }
+    }
 });
 
 // When showing a new question, reset timer state
