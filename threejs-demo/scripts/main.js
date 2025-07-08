@@ -24,10 +24,34 @@ const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(5, 10, 7.5);
 scene.add(light);
 
+
+// --- Mouse drag movement logic ---
+let isDragging = false;
+let prevMouse = { x: 0, y: 0 };
+
+renderer.domElement.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    prevMouse = { x: e.clientX, y: e.clientY };
+});
+renderer.domElement.addEventListener('mouseup', () => {
+    isDragging = false;
+});
+renderer.domElement.addEventListener('mouseleave', () => {
+    isDragging = false;
+});
+renderer.domElement.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const dx = (e.clientX - prevMouse.x) / width * 5; // scale factor for movement
+    const dy = -(e.clientY - prevMouse.y) / height * 5;
+    cube.position.x += dx;
+    cube.position.y += dy;
+    prevMouse = { x: e.clientX, y: e.clientY };
+});
+
 function animate() {
     requestAnimationFrame(animate);
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
+    // cube.rotation.x += 0.01;
+    // cube.rotation.y += 0.01;
     renderer.render(scene, camera);
 }
 animate();
