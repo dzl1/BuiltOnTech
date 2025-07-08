@@ -73,6 +73,8 @@ let dragStartTime = 0;
 let dragDuration = 0;
 let dragDirection = { x: 0, y: 0 };
 let dragActive = false;
+let allowDragWhilePaused = false;
+let explosionPauseTimeout = null;
 
 renderer.domElement.addEventListener('mousedown', (e) => {
     isDragging = true;
@@ -80,30 +82,52 @@ renderer.domElement.addEventListener('mousedown', (e) => {
     dragDelta = { x: 0, y: 0 };
     dragStartTime = Date.now();
     dragActive = false;
+    // If in explosionPaused, stop the 3s timer
+    if (explosionPaused && explosionPauseTimeout) {
+        clearTimeout(explosionPauseTimeout);
+        explosionPauseTimeout = null;
+    }
 });
 renderer.domElement.addEventListener('mouseup', () => {
-    if (isDragging) {
-        dragDuration = (Date.now() - dragStartTime) / 1000; // in seconds
-        // If there was a drag, set direction and activate drag effect
-        if (Math.abs(dragDelta.x) > 0.1 || Math.abs(dragDelta.y) > 0.1) {
-            dragDirection = { x: dragDelta.x, y: dragDelta.y };
-            dragActive = true;
-            dragEffectTime = dragDuration * 2; // rotate for 2x drag duration
-            dragEffectElapsed = 0;
-        }
-    }
     isDragging = false;
+    dragActive = false;
+    // If in explosionPaused, restart the 3s timer
+    if (explosionPaused && !explosionPauseTimeout) {
+        explosionPauseTimeout = setTimeout(() => {
+            imploding = true;
+            explosionElapsed = 0;
+            allowDragWhilePaused = false;
+        }, 3000);
+    }
 });
 renderer.domElement.addEventListener('mouseleave', () => {
     isDragging = false;
+    dragActive = false;
+    // If in explosionPaused, restart the 3s timer
+    if (explosionPaused && !explosionPauseTimeout) {
+        explosionPauseTimeout = setTimeout(() => {
+            imploding = true;
+            explosionElapsed = 0;
+            allowDragWhilePaused = false;
+        }, 3000);
+    }
 });
 renderer.domElement.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
-    const dx = e.clientX - prevMouse.x;
-    const dy = e.clientY - prevMouse.y;
-    dragDelta.x += dx;
-    dragDelta.y += dy;
-    prevMouse = { x: e.clientX, y: e.clientY };
+    if (explosionPaused) {
+        // Allow rotation while paused
+        const dx = e.clientX - prevMouse.x;
+        const dy = e.clientY - prevMouse.y;
+        cubeGroup.rotation.y += dx * 0.01;
+        cubeGroup.rotation.x += dy * 0.01;
+        prevMouse = { x: e.clientX, y: e.clientY };
+    } else if (!rotationPaused) {
+        const dx = e.clientX - prevMouse.x;
+        const dy = e.clientY - prevMouse.y;
+        dragDelta.x += dx;
+        dragDelta.y += dy;
+        prevMouse = { x: e.clientX, y: e.clientY };
+    }
 });
 
 
@@ -185,10 +209,15 @@ function animate() {
             if (!imploding && !explosionPaused) {
                 explosionPaused = true;
                 exploding = false;
-                setTimeout(() => {
-                    imploding = true;
-                    explosionElapsed = 0;
-                }, 3000);
+                allowDragWhilePaused = true;
+                // Start the 3s timer only if not dragging
+                if (!isDragging && !explosionPauseTimeout) {
+                    explosionPauseTimeout = setTimeout(() => {
+                        imploding = true;
+                        explosionElapsed = 0;
+                        allowDragWhilePaused = false;
+                    }, 3000);
+                }
             }
         }
     } else if (imploding) {
@@ -208,6 +237,7 @@ function animate() {
                 mesh.position.set(dir.base.x, dir.base.y, dir.base.z);
             }
             rotationPaused = false;
+            explosionPauseTimeout = null;
         }
     }
     renderer.render(scene, camera);
