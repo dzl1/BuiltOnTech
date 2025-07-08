@@ -1,3 +1,19 @@
+// --- Explosion state variables ---
+let rotationPaused = false;
+let exploding = false;
+let imploding = false;
+let explosionPaused = false;
+let explosionElapsed = 0;
+let explosionDuration = 0.5; // seconds for explosion/implosion
+let explosionDistance = 2; // how far faces move out
+const explosionDirs = [
+    { x: 0, y: 0, z: 1, base: new THREE.Vector3(0,0,0.5) },   // front
+    { x: 0, y: 0, z: -1, base: new THREE.Vector3(0,0,-0.5) }, // back
+    { x: 0, y: 1, z: 0, base: new THREE.Vector3(0,0.5,0) },   // top
+    { x: 0, y: -1, z: 0, base: new THREE.Vector3(0,-0.5,0) }, // bottom
+    { x: 1, y: 0, z: 0, base: new THREE.Vector3(0.5,0,0) },   // right
+    { x: -1, y: 0, z: 0, base: new THREE.Vector3(-0.5,0,0) }, // left
+];
 // Basic Three.js demo setup
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.module.js';
 
@@ -102,88 +118,12 @@ let rotY = baseRotY;
 let dragEffectTime = 0;
 let dragEffectElapsed = 0;
 
-function animate() {
-    requestAnimationFrame(animate);
+/* Removed duplicate and incomplete animate() function */
 
-    // If drag effect is active, rotate in drag direction for the set time
-    if (dragActive) {
-        dragEffectElapsed += 1/60; // assuming ~60fps
-        // Speed up rotation for drag effect, but not too fast
-        const dragLen = Math.sqrt(dragDirection.x * dragDirection.x + dragDirection.y * dragDirection.y);
-        const speed = Math.min(0.08, 0.01 + dragLen * 0.0025); // cap speed
-        rotX = (dragDirection.y / (Math.abs(dragDirection.y) + Math.abs(dragDirection.x) + 1e-6)) * speed;
-        rotY = (dragDirection.x / (Math.abs(dragDirection.y) + Math.abs(dragDirection.x) + 1e-6)) * speed;
-        if (dragEffectElapsed >= dragEffectTime) {
-            dragActive = false;
-            rotX = baseRotX;
-            rotY = baseRotY;
-        }
-    } else {
-        rotX = baseRotX;
-        rotY = baseRotY;
-    }
 
-    cubeGroup.rotation.x += rotX;
-    cubeGroup.rotation.y += rotY;
-    // Animate explosion if active
-    if (exploding) {
-        explosionElapsed += 1/60;
-        let t = Math.min(1, explosionElapsed / explosionDuration);
-        // Move faces outward
-        for (let i = 0; i < 6; i++) {
-            let mesh = faceMeshes[i];
-            let dir = explosionDirs[i];
-            mesh.position.set(dir.x * t * explosionDistance + dir.base.x, dir.y * t * explosionDistance + dir.base.y, dir.z * t * explosionDistance + dir.base.z);
-        }
-        if (explosionElapsed >= explosionDuration) {
-            // Pause for 3 seconds, then start implosion
-            if (!imploding && !explosionPaused) {
-                explosionPaused = true;
-                setTimeout(() => {
-                    imploding = true;
-                    explosionElapsed = 0;
-                }, 3000);
-            }
-        }
-    } else if (imploding) {
-        explosionElapsed += 1/60;
-        let t = 1 - Math.min(1, explosionElapsed / explosionDuration);
-        for (let i = 0; i < 6; i++) {
-            let mesh = faceMeshes[i];
-            let dir = explosionDirs[i];
-            mesh.position.set(dir.x * t * explosionDistance + dir.base.x, dir.y * t * explosionDistance + dir.base.y, dir.z * t * explosionDistance + dir.base.z);
-        }
-        if (explosionElapsed >= explosionDuration) {
-            imploding = false;
-            explosionPaused = false;
-            // Reset positions
-            for (let i = 0; i < 6; i++) {
-                let mesh = faceMeshes[i];
-                let dir = explosionDirs[i];
-                mesh.position.set(dir.base.x, dir.base.y, dir.base.z);
-            }
-            // Resume rotation
-            rotationPaused = false;
-        }
-    }
-    renderer.render(scene, camera);
 // --- Explosion logic ---
-let rotationPaused = false;
-let exploding = false;
-let imploding = false;
-let explosionPaused = false;
-let explosionElapsed = 0;
-let explosionDuration = 0.5; // seconds for explosion/implosion
-let explosionDistance = 2; // how far faces move out
-// Store base and direction for each face
-const explosionDirs = [
-    { x: 0, y: 0, z: 1, base: new THREE.Vector3(0,0,0.5) },   // front
-    { x: 0, y: 0, z: -1, base: new THREE.Vector3(0,0,-0.5) }, // back
-    { x: 0, y: 1, z: 0, base: new THREE.Vector3(0,0.5,0) },   // top
-    { x: 0, y: -1, z: 0, base: new THREE.Vector3(0,-0.5,0) }, // bottom
-    { x: 1, y: 0, z: 0, base: new THREE.Vector3(0.5,0,0) },   // right
-    { x: -1, y: 0, z: 0, base: new THREE.Vector3(-0.5,0,0) }, // left
-];
+// (Only declare these once, at the top of the file!)
+// Remove duplicate declarations below!
 
 // Raycaster for double click
 const raycaster = new THREE.Raycaster();
@@ -205,6 +145,10 @@ renderer.domElement.addEventListener('dblclick', (event) => {
 });
 
 // Pause rotation in animate if needed
+
+
+// --- Removed duplicate explosion logic declarations ---
+
 function animate() {
     requestAnimationFrame(animate);
 
@@ -240,6 +184,7 @@ function animate() {
         if (explosionElapsed >= explosionDuration) {
             if (!imploding && !explosionPaused) {
                 explosionPaused = true;
+                exploding = false;
                 setTimeout(() => {
                     imploding = true;
                     explosionElapsed = 0;
@@ -266,6 +211,5 @@ function animate() {
         }
     }
     renderer.render(scene, camera);
-}
 }
 animate();
