@@ -41,6 +41,8 @@ const faceMeshes = [];
 const cubeGroup = new THREE.Group();
 for (let i = 0; i < 6; i++) {
     faceMaterials[i] = material.clone();
+    // Make both sides of each face visible
+    faceMaterials[i].side = THREE.DoubleSide;
     // Each face is a PlaneGeometry
     const face = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), faceMaterials[i]);
     // Position and orient each face
@@ -56,6 +58,19 @@ for (let i = 0; i < 6; i++) {
     faceMeshes.push(face);
 }
 scene.add(cubeGroup);
+
+// Add a sun-like sphere inside the cube
+const sunGeometry = new THREE.SphereGeometry(0.35, 32, 32);
+const sunMaterial = new THREE.MeshStandardMaterial({
+    color: 0xffd700,
+    emissive: 0xffe066,
+    emissiveIntensity: 1.2,
+    metalness: 0.3,
+    roughness: 0.4
+});
+const sunMesh = new THREE.Mesh(sunGeometry, sunMaterial);
+sunMesh.position.set(0, 0, 0);
+scene.add(sunMesh);
 
 const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(5, 10, 7.5);
@@ -142,7 +157,11 @@ let rotY = baseRotY;
 let dragEffectTime = 0;
 let dragEffectElapsed = 0;
 
-/* Removed duplicate and incomplete animate() function */
+// --- Camera zoom variables ---
+let explodedCameraZ = 2.2; // Closer view when exploded
+let defaultCameraZ = 5;    // Default view
+let cameraTargetZ = defaultCameraZ;
+let cameraLerpSpeed = 0.08;
 
 
 // --- Explosion logic ---
@@ -175,6 +194,9 @@ renderer.domElement.addEventListener('dblclick', (event) => {
 
 function animate() {
     requestAnimationFrame(animate);
+
+    // Smoothly interpolate camera position
+    camera.position.z += (cameraTargetZ - camera.position.z) * cameraLerpSpeed;
 
     if (!rotationPaused) {
         // ...existing code for drag/rotation...
@@ -210,6 +232,7 @@ function animate() {
                 explosionPaused = true;
                 exploding = false;
                 allowDragWhilePaused = true;
+                cameraTargetZ = explodedCameraZ; // Zoom in when exploded
                 // Start the 3s timer only if not dragging
                 if (!isDragging && !explosionPauseTimeout) {
                     explosionPauseTimeout = setTimeout(() => {
@@ -238,6 +261,7 @@ function animate() {
             }
             rotationPaused = false;
             explosionPauseTimeout = null;
+            cameraTargetZ = defaultCameraZ; // Reset camera view
         }
     }
     renderer.render(scene, camera);
